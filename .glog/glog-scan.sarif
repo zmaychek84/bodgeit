@@ -12,6 +12,77 @@
           "informationUri": "https://www.glog.ai",
           "rules": [
             {
+              "id": "5fda6420-e235-3494-80d0-86d6827faee8",
+              "name": "\"String Manipulation Method Concatenation Obfuscation Vulnerability\"",
+              "helpUri": "https://www.glog.ai/",
+              "help": {
+                "text": "",
+                "markdown": "## Description\n\nThe \"String Manipulation Method Concatenation Obfuscation Vulnerability\" in JavaScript refers to a situation where an attacker can manipulate the string concatenation process to obfuscate their malicious code. This can lead to various security issues such as Cross-Site Scripting (XSS) attacks, SQL Injection, and other code injection attacks. In the provided code, the vulnerability arises from the use of the `replace()` method to sanitize the input string. If an attacker can predict or control the input string, they can potentially bypass the sanitization process.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use a secure method for encoding or escaping user-supplied input. This can be achieved by using built-in functions or libraries that are designed for this purpose. Additionally, it is important to validate and sanitize all user inputs, and to use parameterized queries or prepared statements to prevent SQL Injection attacks.\n\n## Source Code Fix Recommendation\n\nThe provided code is already using the `replace()` method to sanitize the input string. However, it is recommended to use a more secure method for encoding or escaping user-supplied input. Here is a recommended fix using the `encodeURI()` function:\n\n```javascript\nvar params = encodeURI(strInput);\n```\n\nThis function encodes special characters, except: , / ? : @ & = + $ #. If you need to encode these characters as well, you can use `encodeURIComponent()` function.\n\n## Library Dependencies\n\nThe provided code does not require any external library dependencies to execute properly. It uses built-in JavaScript methods.\n\n## OWASP and CWE Resources\n\n- [OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)\n- [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)\n- [CWE-116: Improper Encoding or Escaping of Output](https://cwe.mitre.org/data/definitions/116.html)\n- [CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')](https://cwe.mitre.org/data/definitions/89.html)"
+              },
+              "properties": {
+                "cwe": [
+                  {
+                    "id": "CWE-116",
+                    "url": "https://cwe.mitre.org/data/definitions/116.html"
+                  },
+                  {
+                    "id": "CWE-89",
+                    "url": "https://cwe.mitre.org/data/definitions/89.html"
+                  }
+                ],
+                "severity": "MEDIUM",
+                "kind": "FAIL",
+                "tags": [
+                  "CWE-116",
+                  "CWE-89"
+                ]
+              }
+            },
+            {
+              "id": "4249969b-d6df-37ae-98eb-be8ec2eb602b",
+              "name": "High-Risk Dockerfile Vulnerability: Lack of Non-Root User Specification",
+              "helpUri": "https://www.glog.ai/",
+              "help": {
+                "text": "",
+                "markdown": "## Description\n\nIn Docker, the \"High-Risk Dockerfile Vulnerability: Lack of Non-Root User Specification\" vulnerability refers to the situation where a Dockerfile does not specify a non-root user for running the container. By default, Docker containers run as root, which means that if an attacker manages to break out of the container, they would have root access to the host system. This is a significant security concern.\n\n## Security Concern\n\nRunning Docker containers as root is a security risk because it provides the container with potentially dangerous permissions. If an attacker manages to exploit a vulnerability in the application running inside the container, they could gain root access to the host system. This would allow them to execute arbitrary commands, modify system files, and potentially take over the system.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to always specify a non-root user in the Dockerfile that will be used to run the container. This can be done using the `USER` directive. Additionally, it is also recommended to follow the principle of least privilege, i.e., only grant the necessary permissions to the container.\n\n## Source Code Fix Recommendation\n\nHere is an example of how to specify a non-root user in a Dockerfile:\n\n```Dockerfile\n# Use an official Python runtime as a parent image\nFROM python:3.7-slim\n\n# Set the working directory in the container to /app\nWORKDIR /app\n\n# Add the current directory contents into the container at /app\nADD . /app\n\n# Install any needed packages specified in requirements.txt\nRUN pip install --trusted-host pypi.python.org -r requirements.txt\n\n# Make port 80 available to the world outside this container\nEXPOSE 80\n\n# Create a non-root user and switch to it\nRUN adduser --disabled-password --gecos '' myuser\nUSER myuser\n\n# Run app.py when the container launches\nCMD [\"python\", \"app.py\"]\n```\n\nIn this example, the `adduser` command creates a new user named `myuser`, and the `USER` directive switches to this user. Now, the container will run as `myuser` instead of root.\n\n## References\n\n- [OWASP Docker Security](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)\n- [CWE-250: Execution with Unnecessary Privileges](https://cwe.mitre.org/data/definitions/250.html)"
+              },
+              "properties": {
+                "cwe": [
+                  {
+                    "id": "CWE-250",
+                    "url": "https://cwe.mitre.org/data/definitions/250.html"
+                  }
+                ],
+                "severity": "HIGH",
+                "kind": "FAIL",
+                "tags": [
+                  "CWE-250"
+                ]
+              }
+            },
+            {
+              "id": "8e63e6c6-8f1d-3283-94f2-c3c0afcbbfa8",
+              "name": "XSS Vulnerability from User-Controlled Data in HTML String",
+              "helpUri": "https://www.glog.ai/",
+              "help": {
+                "text": "",
+                "markdown": "## Description\n\nThe code snippet provided is vulnerable to Cross-Site Scripting (XSS) attacks due to the use of user-controlled data in the `prepareInput` function. XSS attacks occur when an attacker is able to inject malicious scripts into web pages viewed by other users. In this case, an attacker could potentially manipulate the `target` or `request.term` variables to inject malicious scripts.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to properly sanitize and validate all user-controlled data before using it in your application. This can be done by using built-in functions or libraries that are designed to handle these tasks.\n\n## Source Code Fix Recommendation\n\nThe `prepareInput` function should be modified to properly sanitize the user-controlled data. Here is an example of how you can do this using the `encodeURI` function:\n\n```javascript\nfunction prepareInput(input) {\n    return encodeURI(input);\n}\n```\n\nThis will ensure that any special characters in the user-controlled data are properly encoded, preventing them from being interpreted as part of a script.\n\n## Library Dependencies\n\nThe code snippet provided requires the following library dependencies to execute properly:\n\n- jQuery\n\n## OWASP and CWE Resources\n\n- [OWASP XSS (Cross Site Scripting) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)\n- [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html)\n\nPlease note that these links are subject to change and may not always be accessible. Always refer to the latest resources from OWASP and CWE for the most up-to-date information."
+              },
+              "properties": {
+                "cwe": [
+                  {
+                    "id": "CWE-79",
+                    "url": "https://cwe.mitre.org/data/definitions/79.html"
+                  }
+                ],
+                "severity": "MEDIUM",
+                "kind": "FAIL",
+                "tags": [
+                  "CWE-79"
+                ]
+              }
+            },
+            {
               "id": "e93af868-6bf3-3567-a0f1-2bdf9c8375f4",
               "name": "\"Potential XSS Vulnerability from User-Controlled Data in HTML String\"",
               "helpUri": "https://www.glog.ai/",
@@ -56,51 +127,24 @@
               }
             },
             {
-              "id": "5fda6420-e235-3494-80d0-86d6827faee8",
-              "name": "\"String Manipulation Method Concatenation Obfuscation Vulnerability\"",
+              "id": "001cec94-dcc5-3221-ad19-960711f4bbd3",
+              "name": "High Risk Dockerfile Vulnerability: Improper Use of MAINTAINER Command",
               "helpUri": "https://www.glog.ai/",
               "help": {
                 "text": "",
-                "markdown": "## Description\n\nThe \"String Manipulation Method Concatenation Obfuscation Vulnerability\" in JavaScript refers to a situation where an attacker can manipulate the string concatenation process to obfuscate their malicious code. This can lead to various security issues such as Cross-Site Scripting (XSS) attacks, SQL Injection, and other code injection attacks. In the provided code, the vulnerability arises from the use of the `replace()` method to sanitize the input string. If an attacker can predict or control the input string, they can potentially bypass the sanitization process.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to use a secure method for encoding or escaping user-supplied input. This can be achieved by using built-in functions or libraries that are designed for this purpose. Additionally, it is important to validate and sanitize all user inputs, and to use parameterized queries or prepared statements to prevent SQL Injection attacks.\n\n## Source Code Fix Recommendation\n\nThe provided code is already using the `replace()` method to sanitize the input string. However, it is recommended to use a more secure method for encoding or escaping user-supplied input. Here is a recommended fix using the `encodeURI()` function:\n\n```javascript\nvar params = encodeURI(strInput);\n```\n\nThis function encodes special characters, except: , / ? : @ & = + $ #. If you need to encode these characters as well, you can use `encodeURIComponent()` function.\n\n## Library Dependencies\n\nThe provided code does not require any external library dependencies to execute properly. It uses built-in JavaScript methods.\n\n## OWASP and CWE Resources\n\n- [OWASP Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)\n- [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)\n- [CWE-116: Improper Encoding or Escaping of Output](https://cwe.mitre.org/data/definitions/116.html)\n- [CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')](https://cwe.mitre.org/data/definitions/89.html)"
+                "markdown": "## Description\n\nThe `MAINTAINER` command in Dockerfile is used to set the Author field of the generated images. It is not a security vulnerability per se, but it can be a security concern if it is improperly used. For example, if the email address provided in the `MAINTAINER` command is not valid or is not actively monitored, it could lead to a situation where important security updates or vulnerability reports are missed. This could leave the Docker image, and any containers derived from it, vulnerable to known security issues.\n\n## Security Concern\n\nThe main security concern with the improper use of the `MAINTAINER` command is the potential for missed security updates or vulnerability reports. If the maintainer is not actively monitoring the email address provided, they may not be aware of new vulnerabilities or updates that need to be applied to the Docker image. This could leave the image, and any containers derived from it, vulnerable to attack.\n\n## Mitigation Advice\n\nThe `MAINTAINER` command has been deprecated in Docker. It is recommended to use the `LABEL` command instead to provide metadata about the Docker image. The `LABEL` command allows you to specify multiple metadata items in a single command, and it is more flexible than the `MAINTAINER` command.\n\n## Source Code Fix Recommendation\n\nReplace the `MAINTAINER` command with the `LABEL` command:\n\n```Dockerfile\n# MAINTAINER Simon Bennetts \"psiinon@gmail.com\"\nLABEL maintainer=\"Simon Bennetts <psiinon@gmail.com>\"\n```\n\n## Library Dependencies\n\nThe Dockerfile does not require any library dependencies to execute properly.\n\n## References\n\n- [OWASP Docker Security](https://owasp.org/www-project-docker-top-10/)\n- [CWE-200: Information Exposure](https://cwe.mitre.org/data/definitions/200.html)\n\nPlease note that the links provided are valid and active for anonymous users at the time of writing."
               },
               "properties": {
                 "cwe": [
                   {
-                    "id": "CWE-116",
-                    "url": "https://cwe.mitre.org/data/definitions/116.html"
-                  },
-                  {
-                    "id": "CWE-89",
-                    "url": "https://cwe.mitre.org/data/definitions/89.html"
+                    "id": "CWE-200",
+                    "url": "https://cwe.mitre.org/data/definitions/200.html"
                   }
                 ],
-                "severity": "MEDIUM",
+                "severity": "HIGH",
                 "kind": "FAIL",
                 "tags": [
-                  "CWE-116",
-                  "CWE-89"
-                ]
-              }
-            },
-            {
-              "id": "8e63e6c6-8f1d-3283-94f2-c3c0afcbbfa8",
-              "name": "XSS Vulnerability from User-Controlled Data in HTML String",
-              "helpUri": "https://www.glog.ai/",
-              "help": {
-                "text": "",
-                "markdown": "## Description\n\nThe code snippet provided is vulnerable to Cross-Site Scripting (XSS) attacks due to the use of user-controlled data in the `prepareInput` function. XSS attacks occur when an attacker is able to inject malicious scripts into web pages viewed by other users. In this case, an attacker could potentially manipulate the `target` or `request.term` variables to inject malicious scripts.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, it is recommended to properly sanitize and validate all user-controlled data before using it in your application. This can be done by using built-in functions or libraries that are designed to handle these tasks.\n\n## Source Code Fix Recommendation\n\nThe `prepareInput` function should be modified to properly sanitize the user-controlled data. Here is an example of how you can do this using the `encodeURI` function:\n\n```javascript\nfunction prepareInput(input) {\n    return encodeURI(input);\n}\n```\n\nThis will ensure that any special characters in the user-controlled data are properly encoded, preventing them from being interpreted as part of a script.\n\n## Library Dependencies\n\nThe code snippet provided requires the following library dependencies to execute properly:\n\n- jQuery\n\n## OWASP and CWE Resources\n\n- [OWASP XSS (Cross Site Scripting) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)\n- [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html)\n\nPlease note that these links are subject to change and may not always be accessible. Always refer to the latest resources from OWASP and CWE for the most up-to-date information."
-              },
-              "properties": {
-                "cwe": [
-                  {
-                    "id": "CWE-79",
-                    "url": "https://cwe.mitre.org/data/definitions/79.html"
-                  }
-                ],
-                "severity": "MEDIUM",
-                "kind": "FAIL",
-                "tags": [
-                  "CWE-79"
+                  "CWE-200"
                 ]
               }
             }
@@ -147,41 +191,6 @@
           },
           "fingerprints": {
             "glog-fp-ruleFileCode/v1": "9ed27ad634a4488a4955c82c4d3e3868bd2bfb127b44cdd39c3156f1d48f779c"
-          },
-          "properties": {}
-        },
-        {
-          "ruleId": "44013fd1-3567-3000-9c18-b67558779091",
-          "kind": "fail",
-          "level": "warning",
-          "message": {
-            "text": "\"Potential XSS Vulnerability from User-Controlled Data in HTML String\""
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "root/js/advanced.js",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 31,
-                  "startColumn": 21,
-                  "endLine": 31,
-                  "endColumn": 49,
-                  "snippet": {
-                    "text": "                    addData(name + '[]', value);"
-                  }
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "glog-pfp-ruleFileLineCode/v1": "08d351283793c4d64581536ffbd7d50a8b297f0ae280ee12876443e15f532b62",
-            "glog-pfp-ruleFileCode/v1": "829708cd73bc6bd98f89f4d92abc4cfc10f88bf729a01e67318c376c05d2c25f"
-          },
-          "fingerprints": {
-            "glog-fp-ruleFileCode/v1": "829708cd73bc6bd98f89f4d92abc4cfc10f88bf729a01e67318c376c05d2c25f"
           },
           "properties": {}
         },
@@ -254,6 +263,115 @@
             "glog-fp-ruleFileCode/v1": "aa14e1ff173029a354cc619bbc9ed9b6f74e1adda14d9aae73a11e3aef21ae22"
           },
           "properties": {}
+        },
+        {
+          "ruleId": "4249969b-d6df-37ae-98eb-be8ec2eb602b",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "High-Risk Dockerfile Vulnerability: Lack of Non-Root User Specification"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "# Build via:"
+                  }
+                }
+              },
+              "message": {
+                "text": "Dockerfile"
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "glog-pfp-ruleFileLineCode/v1": "9b16c745a7057d754c4b2587caafdc57224a562235e67d29eafc10c2fe08dcbd",
+            "glog-pfp-ruleFileCode/v1": "af633cae97c7437b1df727446d4b8e85732d23361523a970e484a64b70dcf637"
+          },
+          "fingerprints": {
+            "glog-fp-ruleFileCode/v1": "af633cae97c7437b1df727446d4b8e85732d23361523a970e484a64b70dcf637"
+          }
+        },
+        {
+          "ruleId": "44013fd1-3567-3000-9c18-b67558779091",
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "\"Potential XSS Vulnerability from User-Controlled Data in HTML String\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "root/js/advanced.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 21,
+                  "endLine": 31,
+                  "endColumn": 49,
+                  "snippet": {
+                    "text": "                    addData(name + '[]', value);"
+                  }
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "glog-pfp-ruleFileLineCode/v1": "08d351283793c4d64581536ffbd7d50a8b297f0ae280ee12876443e15f532b62",
+            "glog-pfp-ruleFileCode/v1": "829708cd73bc6bd98f89f4d92abc4cfc10f88bf729a01e67318c376c05d2c25f"
+          },
+          "fingerprints": {
+            "glog-fp-ruleFileCode/v1": "829708cd73bc6bd98f89f4d92abc4cfc10f88bf729a01e67318c376c05d2c25f"
+          },
+          "properties": {}
+        },
+        {
+          "ruleId": "001cec94-dcc5-3221-ad19-960711f4bbd3",
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "High Risk Dockerfile Vulnerability: Improper Use of MAINTAINER Command"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Dockerfile",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 1,
+                  "endLine": 7,
+                  "endColumn": 1,
+                  "snippet": {
+                    "text": "MAINTAINER Simon Bennetts \"psiinon@gmail.com\""
+                  }
+                }
+              },
+              "message": {
+                "text": "Dockerfile"
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "glog-pfp-ruleFileLineCode/v1": "840a8de4917be74112745dfd66739c517d818cff54fc3c5e7ab20e95478f386a",
+            "glog-pfp-ruleFileCode/v1": "a2ef134ab139ecc083a4c1c0f7f501c41ac481ec8f7170713b7d6bcdc3bd0cf3"
+          },
+          "fingerprints": {
+            "glog-fp-ruleFileCode/v1": "a2ef134ab139ecc083a4c1c0f7f501c41ac481ec8f7170713b7d6bcdc3bd0cf3"
+          }
         }
       ],
       "newlineSequences": [
